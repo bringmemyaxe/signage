@@ -6,7 +6,7 @@ for one in r:
     for two in r:
         appender = one + two
         full_r.append(appender)
-while 1:
+while True:
     mode = input('''
 0 - add an idea
 1 - create a thing
