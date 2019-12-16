@@ -161,7 +161,6 @@ choose mode: ''')
             contents.append(list())
             adding.append(list())
             element.append(list())
-        something = '1'
         for brute_force in full_r:
             path_index = 0
             path[path_index] = 'dependencies/X/' + brute_force + '.X'
