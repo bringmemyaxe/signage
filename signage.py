@@ -1,8 +1,9 @@
 import string
 import itertools
 import os
+
 r_list = list(string.digits + string.ascii_uppercase)
-full_r = [tup[0] + tup[1] for tup in itertools.product(r_list,r_list)]
+full_r = [tup[0] + tup[1] for tup in itertools.product(r_list, r_list)]
 while True:
     mode = input('''
 0 - add an idea
@@ -183,6 +184,8 @@ choose mode: ''')
                     pass
                 else:
                     element_index = -1
+
+
                     def recursio(element_index, path_index, file_index, adding_index, contents_index):
                         element_index += 1
                         path_index += 1
@@ -221,6 +224,8 @@ choose mode: ''')
                         file_index -= 1
                         path_index -= 1
                         element_index -= 1
+
+
                     recursio(element_index, path_index, file_index, adding_index, contents_index)
             except FileNotFoundError:
                 pass
