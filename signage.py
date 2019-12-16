@@ -1,11 +1,8 @@
+import string
+import itertools
 import os
-r = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-full_r = []
-for one in r:
-    for two in r:
-        appender = one + two
-        full_r.append(appender)
+r_list = list(string.digits + string.ascii_uppercase)
+full_r = [tup[0] + tup[1] for tup in itertools.product(r_list,r_list)]
 while True:
     mode = input('''
 0 - add an idea
@@ -164,71 +161,70 @@ choose mode: ''')
             contents.append(list())
             adding.append(list())
             element.append(list())
-        for fir in r:
-            for sec in r:
-                brute_force = fir + sec
-                path_index = 0
-                path[path_index] = 'dependencies/X/' + brute_force + '.X'
-                file_index = 0
-                contents_index = 0
-                current_chain = []
-                try:
-                    with open(path[path_index], encoding='UTF-8') as file[file_index]:
-                        contents[contents_index] = (file[file_index].read().splitlines())
-                    current_chain.append(brute_force)
-                    print(current_chain)
-                    adding_index = 0
-                    if brute_force not in count:
-                        count[brute_force] = 1
-                    else:
-                        adding[adding_index] = count.get(brute_force)
-                        adding[adding_index] += 1
-                        count[brute_force] = adding[adding_index]
-                    if len(contents[contents_index]) == 0:
-                        pass
-                    else:
-                        element_index = -1
-                        def recursio(element_index, path_index, file_index, adding_index, contents_index):
-                            element_index += 1
-                            path_index += 1
-                            file_index += 1
-                            adding_index += 1
-                            for element[element_index] in contents[contents_index]:
-                                try:
-                                    while 1:
-                                        path[path_index] = 'dependencies/X/' + element[element_index] + '.X'
-                                        contents_index += 1
-                                        with open(path[path_index], encoding='UTF-8') as file[file_index]:
-                                            contents[contents_index] = (file[file_index].read().splitlines())
-                                        if element[element_index] in current_chain:
-                                            contents_index -= 1
-                                            break
-                                        else:
-                                            current_chain.append(element[element_index])
-                                            print(current_chain)
-                                            if element[element_index] not in count:
-                                                count[element[element_index]] = 1
-                                            else:
-                                                adding[adding_index] = count.get(element[element_index])
-                                                adding[adding_index] += 1
-                                                count[element[element_index]] = adding[adding_index]
-                                            if len(contents[contents_index]) == 0:
-                                                contents_index -= 1
-                                            else:
-                                                recursio(element_index, path_index, file_index, adding_index,
-                                                         contents_index)
-                                            current_chain.remove(element[element_index])
-                                            break
-                                except FileNotFoundError:
-                                    while 1:
-                                        print("EVERYTHING WENT WRONG")
-                            adding_index -= 1
-                            file_index -= 1
-                            path_index -= 1
-                            element_index -= 1
-                        recursio(element_index, path_index, file_index, adding_index, contents_index)
-                except FileNotFoundError:
+        something = '1'
+        for brute_force in full_r:
+            path_index = 0
+            path[path_index] = 'dependencies/X/' + brute_force + '.X'
+            file_index = 0
+            contents_index = 0
+            current_chain = []
+            try:
+                with open(path[path_index], encoding='UTF-8') as file[file_index]:
+                    contents[contents_index] = (file[file_index].read().splitlines())
+                current_chain.append(brute_force)
+                print(current_chain)
+                adding_index = 0
+                if brute_force not in count:
+                    count[brute_force] = 1
+                else:
+                    adding[adding_index] = count.get(brute_force)
+                    adding[adding_index] += 1
+                    count[brute_force] = adding[adding_index]
+                if len(contents[contents_index]) == 0:
                     pass
+                else:
+                    element_index = -1
+                    def recursio(element_index, path_index, file_index, adding_index, contents_index):
+                        element_index += 1
+                        path_index += 1
+                        file_index += 1
+                        adding_index += 1
+                        for element[element_index] in contents[contents_index]:
+                            try:
+                                while 1:
+                                    path[path_index] = 'dependencies/X/' + element[element_index] + '.X'
+                                    contents_index += 1
+                                    with open(path[path_index], encoding='UTF-8') as file[file_index]:
+                                        contents[contents_index] = (file[file_index].read().splitlines())
+                                    if element[element_index] in current_chain:
+                                        contents_index -= 1
+                                        break
+                                    else:
+                                        current_chain.append(element[element_index])
+                                        print(current_chain)
+                                        if element[element_index] not in count:
+                                            count[element[element_index]] = 1
+                                        else:
+                                            adding[adding_index] = count.get(element[element_index])
+                                            adding[adding_index] += 1
+                                            count[element[element_index]] = adding[adding_index]
+                                        if len(contents[contents_index]) == 0:
+                                            contents_index -= 1
+                                        else:
+                                            recursio(element_index, path_index, file_index, adding_index,
+                                                     contents_index)
+                                        current_chain.remove(element[element_index])
+                                        break
+                            except FileNotFoundError:
+                                while 1:
+                                    print("EVERYTHING WENT WRONG")
+                        adding_index -= 1
+                        file_index -= 1
+                        path_index -= 1
+                        element_index -= 1
+                    recursio(element_index, path_index, file_index, adding_index, contents_index)
+            except FileNotFoundError:
+                pass
         print(count)
         k = 1
         for k in range(1, 100001):
